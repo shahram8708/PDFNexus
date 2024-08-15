@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="artificial-intelligence.png"
+        type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="PDF Nexus 🤖 - Convert and analyze PDF content effortlessly. Upload your PDF, get instant responses, and manage your history with ease.">
+    <meta name="keywords"
+        content="PDF, PDF conversion, AI response, document analysis, file upload, history management">
+    <meta name="author" content="Shah Ram / PDF Nexus 🤖">
+    <meta property="og:title" content="PDF Nexus 🤖 - Home">
+    <meta property="og:description"
+        content="Convert and analyze PDF content effortlessly. Upload your PDF, get instant responses, and manage your history with ease.">
+    <meta property="og:image" content="artificial-intelligence.png">
+    <meta property="og:url" content="https://pdf-nexus.onrender.com">
+    <title>PDF Nexus 🤖 - Home</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #e0f7fa, #b9fbc0);
+            margin: 0;
+            display: flex;
+            height: 100vh;
+        }
+
+        .container {
+            background: #ffffff;
+            padding: 0 30px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            position: relative;
+            margin: 20px;
+            margin: auto;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .input-group input[type="text"] {
+            padding: 15px;
+            width: 100%;
+            border: 2px solid #ced4da;
+            border-radius: 8px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+            margin: 55px auto 15px auto;
+        }
+
+        .input-group input[type="text"]:focus {
+            border-color: #c82333;
+            outline: none;
+        }
+
+        .dropzone {
+            border: 2px dashed #ced4da;
+            border-radius: 8px;
+            padding: 20px;
+            width: calc(100% - 45px);
+            text-align: center;
+            background-color: #f8f9fa;
+            cursor: pointer;
+            transition: background-color 0.3s, border-color 0.3s;
+            margin-bottom: 10px;
+        }
+
+        .dropzone:hover {
+            background-color: #e2e6ea;
+            border-color: #c82333;
+        }
+
+        .dropzone input[type="file"] {
+            display: none;
+        }
+
+        .dropzone p {
+            margin: 0;
+            color: #6c757d;
+        }
+
+        button {
+            background-color: #dc3545;
+            color: #fff;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        button:hover {
+            background-color: #c82333;
+            transform: scale(1.05);
+        }
+
+        #result {
+            margin-top: 25px;
+            font-size: 1.1rem;
+            color: #444;
+            text-align: left;
+            max-height: 200vh;
+            overflow-y: auto;
+            padding: 10px;
+            border: 1px solid white;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            display: block;
+        }
+
+        #result::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        #result::-webkit-scrollbar-track {
+            background: black;
+            border-radius: 10px;
+        }
+
+        #result::-webkit-scrollbar-thumb {
+            background-color: #c82333;
+            border-radius: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .loader {
+            display: none;
+            margin: 20px 0;
+        }
+
+        .loader span {
+            width: 12px;
+            height: 12px;
+            margin: 0 6px;
+            background-color: #c82333;
+            border-radius: 50%;
+            display: inline-block;
+            animation: wave 1.5s infinite;
+        }
+
+        .loader span:nth-child(2) {
+            animation-delay: -0.3s;
+        }
+
+        .loader span:nth-child(3) {
+            animation-delay: -0.6s;
+        }
+
+        @keyframes wave {
+
+            0%,
+            100% {
+                transform: scaleY(0.5);
+            }
+
+            50% {
+                transform: scaleY(1.5);
+            }
+        }
+
+        .audio-controls,
+        .copy-controls {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .copy-controls {
+            margin: 20px 0 0 9px;
+        }
+
+        .audio-controls button,
+        .copy-controls button {
+            background-color: #dc3545;
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .audio-controls button:hover,
+        .copy-controls button:hover {
+            background-color: #c82333;
+            transform: scale(1.05);
+        }
+
+        .copy-controls button {
+            background-color: #dc3545;
+            color: #000;
+        }
+
+        .copy-controls button:hover {
+            background-color: #c82333;
+        }
+
+        .description {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            margin: 20px auto;
+        }
+
+        .sidebar {
+            width: 400px;
+            background: #f1f1f1;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 12px 20px 20px 20px;
+            color: black;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        #sidebar.show {
+            width: 100%;
+        }
+
+        .sidebar h2 {
+            font-size: 1.5rem;
+            margin-top: 0;
+            border-bottom: 1px solid #dc3545;
+            padding: 0 0 10px 0;
+        }
+
+        .history-item {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            background: #ffffff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .history-item:hover {
+            background-color: #e9ecef;
+            border: 1px solid #dc3545;
+        }
+
+        .sidebar button {
+            display: block;
+            width: 90%;
+            margin: 10px auto 0 auto;
+            padding: 10px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .sidebar button:hover {
+            background-color: #c82333;
+        }
+
+        #history {
+            flex: 1;
+            max-height: 100vh;
+            overflow-y: auto;
+            padding: 0 10px 0 0;
+            margin: 0 0 10px 0;
+            display: block;
+        }
+
+        #history::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        #history::-webkit-scrollbar-track {
+            background: black;
+            border-radius: 10px;
+        }
+
+        #history::-webkit-scrollbar-thumb {
+            background-color: #c82333;
+            border-radius: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .history-item {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            background: #ffffff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .no-history-message {
+            text-align: center;
+            color: #888;
+            font-size: 16px;
+            font-style: italic;
+        }
+
+        .history-item:hover {
+            background-color: #e9ecef;
+        }
+
+        .history-content {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .history-buttons {
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .user-name {
+            margin-top: 10px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            text-align: center;
+            text-transform: capitalize;
+            display: block;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background-color: #dc3545;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .user-name:hover {
+            background-color: #c82333;
+        }
+
+        .action {
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: white;
+            border: 1px solid #ccc;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 70%;
+            box-sizing: border-box;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .container button {
+            display: block;
+            width: 100%;
+            margin-top: 10px;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background-color: #dc3545;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .container button:hover {
+            background-color: #c82333;
+        }
+
+        #toggleButton {
+            position: fixed;
+            right: 20px;
+            width: 100%;
+            max-width: 60px;
+            top: 5px;
+            background: transparent;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #backToHomeButton {
+            display: block;
+            width: 90%;
+            margin: 10px auto;
+            padding: 10px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        #backToHomeButton:hover {
+            background-color: #c82333;
+        }
+
+        @media (max-width: 600px) {
+
+            #toggleButton {
+                left: 20px;
+                font-size: 20px;
+                top: 5px;
+            }
+
+            .toggle-button {
+                position: fixed;
+                width: 30px;
+                height: 20px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                cursor: pointer;
+                top: 20px;
+                right: 20px;
+            }
+
+            .bar {
+                width: 100%;
+                height: 3px;
+                background-color: black;
+                transition: transform 0.4s, opacity 0.4s;
+            }
+
+            .change .bar:nth-child(1) {
+                transform: translateY(9px) rotate(-45deg);
+            }
+
+            .change .bar:nth-child(2) {
+                opacity: 0;
+            }
+
+            .change .bar:nth-child(3) {
+                transform: translateY(-9px) rotate(45deg);
+            }
+
+            .sidebar {
+                display: none;
+                width: 100%;
+            }
+
+        }
+
+        #searchHistory {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #333;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        #searchHistory:focus {
+            border-color: #dc3545;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+            justify-content: center;
+        }
+
+        #microphoneButton {
+            width: 40px;
+            height: 40px;
+            padding: 25px;
+            font-size: 20px;
+            border-radius: 4px;
+            background-color: #dc3545;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 55px auto 15px 10px;
+            border-radius: 8px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        #microphoneButton:hover {
+            background-color: #c82333;
+        }
+
+        .profile-image-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .profile-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: url('https://img.icons8.com/ios/50/000000/user.png') center/cover no-repeat;
+            cursor: pointer;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="sidebar" id="sidebar">
+        <h2>PDF Nexus 🤖</h2>
+        <input type="text" id="searchHistory" placeholder="🔍 Search history..." />
+        <div id="history"></div>
+        <button id="deleteAll">Delete All 🗑️</button>
+        <button id="startNew">Start New 🆕</button>
+    </div>
+    <div class="container" id="container">
+        <img id="toggleButton" class="profile-image" src="https://img.icons8.com/ios/50/000000/user.png"
+            alt="Profile Image">
+        <div id="content" class="hidden">
+            <button class="login-button" id="login-button">Login 🔐</button>
+            <div class="user-name" style="display: none;"></div>
+            <button id="historyButton">History 🕒</button>
+            <button class="about" id="join" onclick="window.location.href='/membership.html'">Join Membership 🚀</button>
+            <button class="about" id="about" onclick="openAboutPage()">About 💡</button>
+            <button class="about" id="feedback" onclick="openFeedbackPage()">Feedback 🗣️</button>
+            <button class="about" id="query" onclick="openQueryPage()">Query ❓</button>
+            <button class="about" id="privacy" onclick="openPrivacyPolicyPage()">Privacy Policy 🔒</button>
+            <button class="about" id="terms" onclick="openTermsPage()">Terms & Conditions 📜</button>
+            <button class="about" id="support" onclick="openSupportPage()">Help & Support 💬</button>
+            <button class="explore-ai" id="exploreAI" onclick="openExploreAIPage()">Explore AI 🌟</button>
+        </div>
+        <form id="uploadForm" enctype="multipart/form-data">
+            <div class="input-group">
+                <input type="text" id="promptInput" name="prompt" placeholder="➡️ Enter your prompt" required>
+                <button type="button" id="microphoneButton" aria-label="Speak"> <i
+                        class="fas fa-microphone"></i></button>
+            </div>
+            <div class="input-group">
+                <label for="pdfFile" class="dropzone">
+                    <span id="fileName">Drag & Drop PDF Here or Click to Select 📂📥</span>
+                    <input type="file" id="pdfFile" name="pdfFile" accept=".pdf" required>
+                </label>
+            </div>
+            <button type="submit">✅</button>
+        </form>
+        <div id="result"></div>
+        <div class="action">
+            <div class="audio-controls">
+                <button id="playAudio" style="display: none;">▶️</button>
+                <button id="stopAudio" style="display: none;">⏹️</button>
+            </div>
+            <div class="copy-controls">
+                <button id="copyText" style="display: none;">📋</button>
+            </div>
+        </div>
+        <div class="loader" id="loader">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+    <div class="toggle-button" onclick="toggleMenu()">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const microphoneButton = document.getElementById('microphoneButton');
+            const promptInput = document.getElementById('promptInput');
+            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+
+            recognition.lang = 'en-US';
+            recognition.interimResults = false;
+            recognition.continuous = false;
+
+            microphoneButton.addEventListener('click', () => {
+                recognition.start();
+            });
+
+            recognition.addEventListener('result', (event) => {
+                const transcript = event.results[0][0].transcript;
+                promptInput.value = transcript;
+            });
+
+            recognition.addEventListener('error', (event) => {
+                console.error('Speech recognition error', event.error);
+            });
+
+            recognition.addEventListener('end', () => {
+            });
+        });
+
+        async function shareResponse(index) {
+            const { jsPDF } = window.jspdf;
+            const history = JSON.parse(localStorage.getItem('pdfResponses')) || [];
+            const item = history[index];
+
+            if (item) {
+                const plainText = extractPlainText(item.response);
+                const pdfDoc = new jsPDF();
+
+                const pageWidth = pdfDoc.internal.pageSize.width;
+                const pageHeight = pdfDoc.internal.pageSize.height;
+                const margin = 10;
+                const lineHeight = 10;
+                const maxWidth = pageWidth - 2 * margin;
+                const textLines = pdfDoc.splitTextToSize(plainText, maxWidth);
+
+                let yOffset = margin;
+                textLines.forEach((line, index) => {
+                    if (yOffset + lineHeight > pageHeight - margin) {
+                        pdfDoc.addPage();
+                        yOffset = margin;
+                    }
+                    pdfDoc.text(line, margin, yOffset);
+                    yOffset += lineHeight;
+                });
+
+                pdfDoc.save('response.pdf');
+            }
+        }
+
+        function extractPlainText(htmlString) {
+            const div = document.createElement('div');
+            div.innerHTML = htmlString;
+            return div.textContent || div.innerText || '';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const shareButtons = document.querySelectorAll('.share-button');
+            shareButtons.forEach((button, index) => {
+                button.addEventListener('click', () => {
+                    shareResponse(index);
+                });
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchHistoryInput = document.getElementById('searchHistory');
+
+            searchHistoryInput.addEventListener('input', function () {
+                const searchQuery = searchHistoryInput.value.toLowerCase();
+                filterHistory(searchQuery);
+            });
+        });
+
+        function filterHistory(query) {
+            const historyItems = document.querySelectorAll('#history .history-item');
+
+            historyItems.forEach(item => {
+                const itemName = item.querySelector('.history-content strong').textContent.toLowerCase();
+                if (itemName.includes(query)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        function showHistory() {
+            const sidebar = document.getElementById('sidebar');
+            const container = document.getElementById('container');
+
+            sidebar.style.display = 'flex';
+            sidebar.classList.add('show');
+            container.style.display = 'none';
+
+            if (!document.getElementById('backToHomeButton')) {
+                const backToHomeButton = document.createElement('button');
+                backToHomeButton.id = 'backToHomeButton';
+                backToHomeButton.textContent = 'Back to Home 🔙';
+                backToHomeButton.addEventListener('click', () => {
+                    window.location.reload();
+                });
+
+                sidebar.appendChild(backToHomeButton);
+            }
+        }
+
+        const historyButton = document.getElementById('historyButton');
+        historyButton.addEventListener('click', showHistory);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleButton = document.getElementById('toggleButton');
+            const content = document.getElementById('content');
+
+            toggleButton.addEventListener('click', () => {
+                content.classList.toggle('hidden');
+            });
+
+            document.addEventListener('click', (event) => {
+                if (!content.contains(event.target) && event.target !== toggleButton) {
+                    content.classList.add('hidden');
+                }
+            });
+
+            content.addEventListener('click', (event) => {
+                event.stopPropagation();
+                content.classList.add('hidden');
+            });
+        });
+
+        function toggleMenu() {
+            var menuButton = document.querySelector('.toggle-button');
+            menuButton.classList.toggle('change');
+
+            var menuItems = document.getElementById('sidebar');
+            var container = document.getElementById('container');
+
+            if (menuItems.style.display === 'flex') {
+                menuItems.style.display = 'none';
+                container.style.display = 'flex';
+            } else {
+                menuItems.style.display = 'flex';
+                container.style.display = 'none';
+            }
+        }
+
+        function hideSidebar() {
+            var sidebar = document.getElementById('sidebar');
+            var container = document.getElementById('container');
+            var menuButton = document.querySelector('.toggle-button');
+
+            sidebar.style.display = 'none';
+            container.style.display = 'flex';
+            menuButton.classList.remove('change');
+        }
+
+        function addSidebarClickListeners() {
+            var sidebarItems = document.querySelectorAll('#sidebar *:not(#searchHistory)');
+            sidebarItems.forEach(function (item) {
+                item.addEventListener('click', function () {
+                    hideSidebar();
+                });
+            });
+        }
+
+        function handleResize() {
+            if (window.innerWidth <= 600) {
+                addSidebarClickListeners();
+            } else {
+                var sidebarItems = document.querySelectorAll('#sidebar *:not(#searchHistory)');
+                sidebarItems.forEach(function (item) {
+                    item.removeEventListener('click', hideSidebar);
+                });
+            }
+        }
+
+        handleResize();
+
+        window.addEventListener('resize', handleResize);
+        const historyContainer = document.getElementById('history');
+        const sidebar = document.getElementById('sidebar');
+        const resultContainer = document.getElementById('result');
+        const loader = document.getElementById('loader');
+        const playAudioButton = document.getElementById('playAudio');
+        const stopAudioButton = document.getElementById('stopAudio');
+        const copyTextButton = document.getElementById('copyText');
+        const fileInput = document.getElementById('pdfFile');
+        const fileNameDisplay = document.getElementById('fileName');
+        const startNewButton = document.getElementById('startNew');
+        const deleteAllButton = document.getElementById('deleteAll');
+
+        function updateHistory() {
+            const history = JSON.parse(localStorage.getItem('pdfResponses')) || [];
+            historyContainer.innerHTML = '';
+
+            if (history.length === 0) {
+                historyContainer.innerHTML = '<p class="no-history-message">❌ No history available</p>';
+            } else {
+                history.forEach((item, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'history-item';
+                    div.innerHTML = `
+                <div class="history-content">
+                    <strong>${item.name || 'Response ' + (index + 1)}</strong>
+                    <div class="history-buttons">
+                        <button onclick="editName(${index})">✎</button>
+                        <button onclick="deleteHistory(${index})">🗑️</button>
+                        <button onclick="openHistory(${index})">Open</button>
+                        <button onclick="shareResponse(${index})">🔗</button> 
+                    </div>
+                </div>
+            `;
+                    historyContainer.appendChild(div);
+                });
+            }
+        }
+
+        function saveToHistory(name, response) {
+            const history = JSON.parse(localStorage.getItem('pdfResponses')) || [];
+            history.push({ name, response });
+            localStorage.setItem('pdfResponses', JSON.stringify(history));
+            updateHistory();
+        }
+
+        function deleteHistory(index) {
+            const history = JSON.parse(localStorage.getItem('pdfResponses')) || [];
+            history.splice(index, 1);
+            localStorage.setItem('pdfResponses', JSON.stringify(history));
+            updateHistory();
+        }
+
+        function editName(index) {
+            const newName = prompt('Enter new name:', 'Response ' + (index + 1));
+            if (newName) {
+                const history = JSON.parse(localStorage.getItem('pdfResponses')) || [];
+                history[index].name = newName;
+                localStorage.setItem('pdfResponses', JSON.stringify(history));
+                updateHistory();
+            }
+        }
+
+        function openHistory(index) {
+            const history = JSON.parse(localStorage.getItem('pdfResponses')) || [];
+            const item = history[index];
+            if (item) {
+                resultContainer.innerHTML = item.response;
+                fileNameDisplay.textContent = 'Opened: ' + (item.name || 'Response ' + (index + 1));
+
+                playAudioButton.style.display = 'inline-block';
+                stopAudioButton.style.display = 'inline-block';
+                copyTextButton.style.display = 'inline-block';
+
+                let synth = window.speechSynthesis;
+                let currentUtterance = new SpeechSynthesisUtterance(item.response);
+
+                playAudioButton.onclick = () => {
+                    if (synth.speaking && currentUtterance) {
+                        synth.resume();
+                    } else {
+                        synth.speak(currentUtterance);
+                    }
+                };
+
+                stopAudioButton.onclick = () => {
+                    if (synth.speaking) {
+                        synth.pause();
+                        synth.cancel();
+                    }
+                };
+
+                copyTextButton.onclick = () => {
+                    navigator.clipboard.writeText(item.response).then(() => {
+                        alert('Text copied to clipboard!');
+                    }).catch(err => {
+                        console.error('Failed to copy text: ', err);
+                    });
+                };
+            }
+        }
+
+        function clearAllHistory() {
+            localStorage.removeItem('pdfResponses');
+            updateHistory();
+        }
+
+        document.getElementById('uploadForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            loader.style.display = 'block';
+            resultContainer.innerHTML = '';
+
+            const formData = new FormData(this);
+            const pdfFile = document.getElementById('pdfFile').files[0];
+
+            if (!pdfFile) {
+                alert('Please select a PDF file.');
+                loader.style.display = 'none';
+                return;
+            }
+
+            const url = URL.createObjectURL(pdfFile);
+            const pdf = await pdfjsLib.getDocument(url).promise;
+            const numPages = pdf.numPages;
+            const images = [];
+
+            for (let i = 1; i <= numPages; i++) {
+                const page = await pdf.getPage(i);
+                const viewport = page.getViewport({ scale: 1.5 });
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                const renderContext = {
+                    canvasContext: context,
+                    viewport: viewport
+                };
+                await page.render(renderContext).promise;
+
+                const imgData = canvas.toDataURL();
+                images.push(imgData);
+            }
+
+            URL.revokeObjectURL(url);
+
+            const imageBlobPromises = images.map(dataURL => fetch(dataURL).then(res => res.blob()));
+            const imageBlobs = await Promise.all(imageBlobPromises);
+
+            imageBlobs.forEach((blob, index) => {
+                formData.append(`images`, blob, `page_${index + 1}.png`);
+            });
+
+            try {
+                const response = await fetch('https://pdf-nexus.onrender.com/process', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                const responseText = data.html || data.error;
+                resultContainer.innerHTML = responseText;
+
+                if (responseText) {
+                    playAudioButton.style.display = 'inline-block';
+                    stopAudioButton.style.display = 'inline-block';
+
+                    let synth = window.speechSynthesis;
+                    let currentUtterance = null;
+
+                    playAudioButton.addEventListener('click', () => {
+                        if (currentUtterance) {
+                            synth.resume();
+                        } else {
+                            currentUtterance = new SpeechSynthesisUtterance(responseText);
+                            synth.speak(currentUtterance);
+                        }
+                    });
+
+                    stopAudioButton.addEventListener('click', () => {
+                        if (currentUtterance) {
+                            synth.pause();
+                            synth.cancel();
+                            currentUtterance = null;
+                        }
+                    });
+
+                    copyTextButton.style.display = 'inline-block';
+                    copyTextButton.addEventListener('click', () => {
+                        navigator.clipboard.writeText(responseText).then(() => {
+                            alert('Text copied to clipboard!');
+                        }).catch(err => {
+                            console.error('Failed to copy text: ', err);
+                        });
+                    });
+
+                    saveToHistory(`Response ${Date.now()}`, responseText);
+                }
+            } catch (error) {
+                resultContainer.innerHTML = 'An error occurred: ' + error.message;
+            } finally {
+                loader.style.display = 'none';
+            }
+        });
+
+        fileInput.addEventListener('change', function () {
+            const file = fileInput.files[0];
+            if (file) {
+                fileNameDisplay.textContent = `Selected File: ${file.name}`;
+            } else {
+                fileNameDisplay.textContent = 'Drag & Drop PDF Here or Click to Select 📂📥';
+            }
+        });
+
+        startNewButton.addEventListener('click', () => {
+            fileInput.value = '';
+            fileNameDisplay.textContent = 'Drag & Drop PDF Here or Click to Select 📂📥';
+            resultContainer.innerHTML = '';
+        });
+
+        deleteAllButton.addEventListener('click', clearAllHistory);
+
+        updateHistory();
+
+        function handleLogin() {
+            window.location.href = '/login.html';
+        }
+
+        const loginButton = document.getElementById('login-button');
+        loginButton.addEventListener('click', handleLogin);
+
+        window.onload = function () {
+            const loggedInUser = localStorage.getItem('loggedInUser');
+            const loginButton = document.getElementById('login-button');
+            const deleteAllChatsButton = document.getElementById('delete-all-chats');
+
+            if (!loggedInUser) {
+                loginButton.style.display = 'block';
+            } else {
+                loginButton.style.display = 'none';
+
+                const userName = JSON.parse(loggedInUser).username;
+                let userNameDisplay = document.querySelector('.user-name');
+
+                if (!userNameDisplay) {
+                    userNameDisplay = document.createElement('div');
+                    userNameDisplay.classList.add('user-name');
+                    userNameDisplay.textContent = `${userName} 👤`;
+                    userNameDisplay.style.display = 'block';
+                    deleteAllChatsButton.parentNode.insertBefore(userNameDisplay, deleteAllChatsButton);
+                } else {
+                    userNameDisplay.textContent = `${userName} 👤`;
+                    userNameDisplay.style.display = 'block';
+                }
+
+                userNameDisplay.addEventListener('click', () => {
+                    window.location.href = `/user-details.html`;
+                });
+            }
+
+            const toggleButton = localStorage.getItem('profileImage');
+            if (toggleButton) {
+                document.getElementById('toggleButton').src = toggleButton;
+            }
+        };
+
+        function openAboutPage() {
+            window.location.href = '/about.html';
+        }
+
+        function openFeedbackPage() {
+            window.location.href = '/feedback.html';
+        }
+
+        function openQueryPage() {
+            window.location.href = '/query.html';
+        }
+
+        function openPrivacyPolicyPage() {
+            window.location.href = '/privacy.html';
+        }
+
+        function openTermsPage() {
+            window.location.href = '/terms.html';
+        }
+
+        function openSupportPage() {
+            window.location.href = '/support.html';
+        }
+
+        function openExploreAIPage() {
+            window.location.href = '/explore.html';
+        }
+
+    </script>
+</body>
+
+</html>
